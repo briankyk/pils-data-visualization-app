@@ -1,14 +1,8 @@
 import sys
-import pyqtgraph
 import numpy as np
 import pandas as pd
-import xlsxwriter
 from PyQt5 import QtGui, QtWidgets, QtCore
-
 from Ui_scripts import Ui_MainWindow
-
-
-pyqtgraph.setConfigOptions(antialias=True)
 
 
 class Main(QtGui.QMainWindow, Ui_MainWindow):
@@ -47,10 +41,6 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
     def GetDir(self):
         path = QtGui.QFileDialog.getExistingDirectory(
             self, "Select Directory")
-
-        # debug message
-        # print(path)
-
         filter = ["*.dat"]
         self.directoryPath_lineEdit.setText(path)
         self.model = QtWidgets.QFileSystemModel()
@@ -67,25 +57,17 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
         file_path = self.model.filePath(index)
         file_name = self.model.fileName(index)
         file_path_str = str(file_path)
-
         self.status_lineEdit.setText(file_name)
 
         if ".dat" in file_path_str:
-
             file_selected = True
             return file_selected
-
         else:
             file_selected = False
             return file_selected
 
-        # debug message
-        # print(file_path)
-        # print(file_name)
-
     def startMonitoring(self):
         if file_selected is True:
-
             self.timer = QtCore.QTimer()
             self.timer.setInterval(50)
             self.timer.timeout.connect(self.update_graph)
@@ -102,15 +84,11 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
         else:
             self.status_lineEdit.setText("ERROR: FILE NOT SELECTED")
 
-            # debug message
-            #print("ERROR: FILE NOT SELECTED")
-
     def update_graph(self):
         index = self.folder_tree.currentIndex()
         file_path = self.model.filePath(index)
         date, time, sec, tip_temp, steam_temp = np.genfromtxt(
             file_path, dtype=str, delimiter=",", skip_header=1, unpack=True)
-
         sec = sec.astype(float)
         tip_temp = tip_temp.astype(float)
         steam_temp = steam_temp.astype(float)
@@ -133,7 +111,6 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
             file_path = self.model.filePath(index)
             date, time, sec, tip_temp, steam_temp = np.genfromtxt(
                 file_path, dtype=str, delimiter=",", skip_header=1, unpack=True)
-
             sec = sec.astype(float)
             tip_temp = tip_temp.astype(float)
             steam_temp = steam_temp.astype(float)
@@ -144,9 +121,6 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
         else:
             self.status_lineEdit.setText("ERROR: FILE NOT SELECTED")
 
-            # debug messasageindex = self.folder_tree.currentIndex()
-            #print("ERROR: FILE NOT SELECTED")
-
     def exportXLSX(self):
         if file_selected is True:
             index = self.folder_tree.currentIndex()
@@ -156,11 +130,9 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
             # print(file_name_mod)
             date, time, sec, tip_temp, steam_temp = np.genfromtxt(
                 file_path, dtype=str, delimiter=",", skip_header=1, unpack=True)
-
             sec = sec.astype(float)
             tip_temp = tip_temp.astype(float)
             steam_temp = steam_temp.astype(float)
-
             data = [date, time, sec, tip_temp, steam_temp]
             data_pd = pd.DataFrame(data)
             data_pd = data_pd.T
@@ -168,30 +140,13 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
             data_pd.to_excel(export_excel, sheet_name=file_name)
             export_excel.save()
 
-            # print(data_pd)
-            # print(date)
-            # print(time)
-            # print(sec)
-            # print(tip_temp)
-            # print(steam_temp)
-
-            # debug message
-            # print("export as xlsx")
-            print(file_name_mod)
-
         else:
             self.status_lineEdit.setText("ERROR: FILE NOT SELECTED")
-
-            # debug message
-            # print("ERROR: FILE NOT SELECTED")
 
     def clearPlot(self):
         self.status_lineEdit.setText("Plot Cleared")
         self.plot_steam_temp.clear()
         self.plot_tip_temp.clear()
-
-        # debug message
-        #print("clear plot")
 
 
 if __name__ == "__main__":
