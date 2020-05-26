@@ -93,11 +93,21 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
         tip_temp = tip_temp.astype(float)
         steam_temp = steam_temp.astype(float)
 
-        self.plot_tip_temp.plot(sec, tip_temp)
-        self.plot_steam_temp.plot(sec, steam_temp)
+        if sec.shape == tip_temp.shape:
+            self.plot_tip_temp.clear()
+            self.plot_tip_temp.plot(sec, tip_temp)
+        else:
+            pass
+
+        if sec.shape == steam_temp.shape:
+            self.plot_steam_temp.clear()
+            self.plot_steam_temp.plot(sec, steam_temp)
+        else:
+            pass
 
     def stopMonitoring(self):
         self.timer.stop()
+        self.selectFolder_toolButton.setDisabled(False)
         self.start_btn.setDisabled(False)
         self.stop_btn.setDisabled(True)
         self.plot_btn.setDisabled(False)
@@ -115,8 +125,19 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
             tip_temp = tip_temp.astype(float)
             steam_temp = steam_temp.astype(float)
 
-            self.plot_tip_temp.plot(sec, tip_temp)
-            self.plot_steam_temp.plot(sec, steam_temp)
+            if sec.shape == tip_temp.shape:
+                self.plot_tip_temp.plot(sec, tip_temp)
+            else:
+                pass
+
+            if sec.shape == steam_temp.shape:
+                self.plot_steam_temp.plot(sec, steam_temp)
+            else:
+                pass
+
+            print(sec.shape)
+            print(tip_temp.shape)
+            print(steam_temp.shape)
 
         else:
             self.status_lineEdit.setText("ERROR: FILE NOT SELECTED")
