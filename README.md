@@ -33,7 +33,7 @@ After that, install the necessary dependencies by running the following commands
 To run the program, `cd` to the directory which contains the the `Ui_scripts.py` and the `main.py` files in the terminal and run the `python main.py` command.  
 
 # Operation
-**Select the data file directory (MUST DO THIS FIRST)**
+**Select the data file directory (MUST DO THIS FIRST)**  
 After running the `main.py` script, the GUI will appear.  
 To begin with, click the `tool button` to select the directory which contains the data files.  
 
