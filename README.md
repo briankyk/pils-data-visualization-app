@@ -1,5 +1,6 @@
-# Data Collection Application for PILS 
+# Data Collection Application for PILS (Archived)
 This repository contains the data collection application for Particle into Liquid Sampler (PILS) Model 4001 manufactured by Brechtel. 
+The repository is currently archived. 
 
 ![](images/GUI_main.png)
 
